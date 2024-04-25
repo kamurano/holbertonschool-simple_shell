@@ -1,4 +1,5 @@
 #include "main.h"
+#include <dirent.h>
 
 #define max_len 100
 
