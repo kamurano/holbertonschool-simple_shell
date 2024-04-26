@@ -6,29 +6,32 @@
 
 void handle_command(char *command)
 {
-	if (strncmp(command, "echo", 4) == 0)
-		printf("%s\n", command + 5);
-	else if (strcmp(command, "exit") == 0)
-		exit(0);
-	else if (strncmp(command, "ls", 2) == 0)
-	{
-		DIR *dir;
-		struct dirent *ent;
+	char **args = {command, NULL};
+	pid_t pid;
+	int status;
 
-		dir = opendir(".");
-		if (dir != NULL)
+	pid = fork();
+	if (pid == -1)
+	{
+		perror("Fork failed");
+		return;
+	}
+	else if (!pid)
+	{
+		if (execve(command, args, NULL) == -1)
 		{
-			while ((ent = readdir(dir)) != NULL)
-				printf("%s\n", ent->d_name);
-			closedir(dir);
-		}
-		else
-		{
-			perror("");
+			perror("Execve failed");
+			exit(0);
 		}
 	}
 	else
-		printf("Unknown command: %s\n", command);
+	{
+		if (waitpid(pid, &status, 0) == -1)
+		{
+			perror("Waitpid failed");
+			exit(0);
+		}
+	}
 }
 
 int main(void)
