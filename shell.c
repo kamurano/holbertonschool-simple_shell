@@ -1,7 +1,8 @@
 #include "main.h"
 #include <dirent.h>
 
-#define max_len 100
+#define MAX_LEN 100
+#define PROMPT ">> "
 
 void handle_command(char *command)
 {
@@ -15,7 +16,7 @@ void handle_command(char *command)
 		struct dirent *ent;
 
 		dir = opendir(".");
-if (dir != NULL)
+		if (dir != NULL)
 		{
 			while ((ent = readdir(dir)) != NULL)
 				printf("%s\n", ent->d_name);
@@ -32,14 +33,20 @@ if (dir != NULL)
 
 int main(void)
 {
-	char command[max_len];
+	char command[MAX_LEN];
 
 	while (1)
 	{
-		printf(">> ");
-		fgets(command, max_len, stdin);
-		command[strcspn(command, "\n")] = 0;
+		write(STDOUT_FILENO, PROMPT, strlen(PROMPT));
+		if (fgets(command, MAX_LEN, stdin) == NULL)
+		{
+			if (feof(stdin))
+				break;
+			perror("Error reading command");
+			continue;
+		}
 
+		command[strcspn(command, "\n")] = '\0';
 		handle_command(command);
 	}
 	return (0);
