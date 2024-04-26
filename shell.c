@@ -26,7 +26,7 @@ void handle_command(char *u_command)
 	}
 	else if (!pid)
 	{
-		if (execve(args[0], args) == -1)
+		if (execve(args[0], args, NULL) == -1)
 		{
 			perror("Execve failed");
 			exit(0);
