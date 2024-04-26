@@ -6,7 +6,7 @@
 
 void handle_command(char *command)
 {
-	char **args = {command, NULL};
+	char *args[] = {command, NULL};
 	pid_t pid;
 	int status;
 
