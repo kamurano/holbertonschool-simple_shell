@@ -4,12 +4,20 @@
 #define MAX_LEN 100
 #define PROMPT ">> "
 
-void handle_command(char *command)
+void handle_command(char *u_command)
 {
-	char *args[] = {command, NULL};
+	char *args[MAX_LEN], *command = strtok(u_command, " ");
 	pid_t pid;
-	int status;
+	int status, i = 0;
 
+	while (command != NULL && i < MAX_LEN - 1)
+	{
+		args[i] = command;
+		i++;
+		command = strtok(NULL, " ");
+	}
+	args[i] = NULL;
+	
 	pid = fork();
 	if (pid == -1)
 	{
@@ -18,9 +26,9 @@ void handle_command(char *command)
 	}
 	else if (!pid)
 	{
-		if (execve(command, args, NULL) == -1)
+		if (execp(args[0], args) == -1)
 		{
-			perror("Execve failed");
+			perror("Execvp failed");
 			exit(0);
 		}
 	}
