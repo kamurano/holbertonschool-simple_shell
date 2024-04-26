@@ -26,9 +26,9 @@ void handle_command(char *u_command)
 	}
 	else if (!pid)
 	{
-		if (execvp(args[0], args) == -1)
+		if (execve(args[0], args) == -1)
 		{
-			perror("Execvp failed");
+			perror("Execve failed");
 			exit(0);
 		}
 	}
