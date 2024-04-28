@@ -59,7 +59,11 @@ int main(void)
 		else if (read_size == 0)
 			break;
 
-		command[read_size - 1] = '\0';
+		if (command[read_size - 1] == '\n')
+			command[read_size - 1] = '\0';
+		else
+			command[read_size] = '\0';
+
 		handle_command(command);
 	}
 	return (0);
