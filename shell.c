@@ -49,8 +49,6 @@ int main(void)
 	while (1)
 	{
 		ssize_t read_size;
-		
-		printf(PROMPT);
 
 		read_size = read(STDIN_FILENO, command, MAX_LEN);
 		if (read_size == -1)
