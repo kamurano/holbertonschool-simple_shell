@@ -48,7 +48,6 @@ int main(void)
 
 	while (1)
 	{
-		write(STDOUT_FILENO, PROMPT, strlen(PROMPT));
 		if (fgets(command, MAX_LEN, stdin) == NULL)
 		{
 			if (feof(stdin))
