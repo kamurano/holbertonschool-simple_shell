@@ -44,13 +44,14 @@ void handle_command(char *u_command)
 
 int main(void)
 {
-	char command[MAX_LEN];
+	char commands[MAX_LEN];
+	char *command;
 
 	while (1)
 	{
 		ssize_t read_size;
 
-		read_size = read(STDIN_FILENO, command, MAX_LEN);
+		read_size = read(STDIN_FILENO, commands, MAX_LEN);
 		if (read_size == -1)
 		{
 			perror("Error reading command");
@@ -59,12 +60,17 @@ int main(void)
 		else if (read_size == 0)
 			break;
 
-		if (command[read_size - 1] == '\n')
-			command[read_size - 1] = '\0';
+		if (commands[read_size - 1] == '\n')
+			commands[read_size - 1] = '\0';
 		else
-			command[read_size] = '\0';
-
-		handle_command(command);
+			commands[read_size] = '\0';
+		
+		command = strtok(commands, "\n");
+		while (command != NULL)
+		{
+			handle_command(command);
+			command = strtok(NULL, "\n");
+		}
 	}
 	return (0);
 }
