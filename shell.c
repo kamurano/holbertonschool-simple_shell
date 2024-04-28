@@ -58,7 +58,7 @@ int main(void)
 			perror("Error reading command");
 			exit(0);
 		}
-		else if (read_size = 0)
+		else if (read_size == 0)
 			break;
 
 		command[read_size - 1] = '\0';
