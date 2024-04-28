@@ -60,10 +60,7 @@ int main(void)
 		else if (read_size == 0)
 			break;
 
-		if (commands[read_size - 1] == '\n')
-			commands[read_size - 1] = '\0';
-		else
-			commands[read_size] = '\0';
+		commands[read_size] = '\0';
 		
 		command = strtok(commands, "\n");
 		while (command != NULL)
