@@ -48,15 +48,20 @@ int main(void)
 
 	while (1)
 	{
-		if (fgets(command, MAX_LEN, stdin) == NULL)
-		{
-			if (feof(stdin))
-				break;
-			perror("Error reading command");
-			continue;
-		}
+		ssize_t read_size;
+		
+		printf(PROMPT);
 
-		command[strcspn(command, "\n")] = '\0';
+		read_size = read(STDIN_FILENO, command, MAX_LEN);
+		if (read_size == -1)
+		{
+			perror("Error reading command");
+			exit(0);
+		}
+		else if (read_size = 0)
+			break;
+
+		command[read_size - 1] = '\0';
 		handle_command(command);
 	}
 	return (0);
