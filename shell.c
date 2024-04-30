@@ -46,6 +46,8 @@ int main(void)
 {
 	char commands[MAX_LEN];
 	char *command;
+	char *commands_array[MAX_LEN];
+	int a = 0;
 
 	while (1)
 	{
@@ -61,12 +63,22 @@ int main(void)
 			break;
 
 		commands[read_size] = '\0';
-		
+
 		command = strtok(commands, "\n");
 		while (command != NULL)
 		{
-			handle_command(command);
+			commands_array[a] = command;
 			command = strtok(NULL, "\n");
+			a++;
+		}
+		commands_array[a] = NULL;
+		
+		a = 0;
+		while (commands_array[a] != NULL)
+		{
+			command = commands_array[a];
+			handle_command(command);
+			a++;
 		}
 	}
 	return (0);
