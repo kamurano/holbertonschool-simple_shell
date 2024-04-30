@@ -10,12 +10,17 @@ void handle_command(char *u_command)
 	pid_t pid;
 	int status, i = 0;
 
+	args[0] = NULL;
 	while (command != NULL && i < MAX_LEN - 1)
 	{
 		args[i] = command;
 		i++;
 		command = strtok(NULL, " \t");
 	}
+
+	if (args[0] == NULL)
+		return;
+	
 	args[i] = NULL;
 	
 	pid = fork();
