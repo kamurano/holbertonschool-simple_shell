@@ -6,7 +6,7 @@
 
 void handle_command(char *u_command)
 {
-	char *args[MAX_LEN], *command = strtok(u_command, " ");
+	char *args[MAX_LEN], *command = strtok(u_command, " \t");
 	pid_t pid;
 	int status, i = 0;
 
@@ -14,7 +14,7 @@ void handle_command(char *u_command)
 	{
 		args[i] = command;
 		i++;
-		command = strtok(NULL, " ");
+		command = strtok(NULL, " \t");
 	}
 	args[i] = NULL;
 	
