@@ -31,18 +31,35 @@ void handle_command(char *u_command)
 	}
 	else if (!pid)
 	{
-		if (execve(args[0], args, NULL) == -1)
-		{
-			perror("Execve failed");
-			exit(0);
-		}
+		if (strcmp(args[0], "env") == 0)
+                {
+                        char **env = environ;
+
+                        while (*env != NULL)
+                        {
+                                printf("%s\n", *env);
+                                env++;
+                        }
+                        exit(EXIT_SUCCESS);
+                }
+                if (strchr(args[0], '/') != NULL)
+                {
+                        if (access(args[0], X_OK) == 0)
+                        {
+                                if (execve(args[0], args, environ) == -1)
+                                {
+                                        perror("Execve failed");
+                                        exit(EXIT_FAILURE);
+                                }
+                        }
+                }
 	}
 	else
 	{
 		if (waitpid(pid, &status, 0) == -1)
 		{
 			perror("Waitpid failed");
-			exit(0);
+			exit(EXIT_FAILURE);
 		}
 	}
 }
@@ -62,7 +79,7 @@ int main(void)
 		if (read_size == -1)
 		{
 			perror("Error reading command");
-			exit(0);
+			exit(EXIT_FAILURE);
 		}
 		else if (read_size == 0)
 			break;
