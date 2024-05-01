@@ -89,6 +89,8 @@ int main(void)
 		command = strtok(commands, "\n");
 		while (command != NULL)
 		{
+			if (strcmp(command, "exit") == 0)
+				exit(0);
 			commands_array[a] = command;
 			command = strtok(NULL, "\n");
 			a++;
