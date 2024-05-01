@@ -69,7 +69,7 @@ int main(void)
 	char commands[MAX_LEN];
 	char *command;
 	char *commands_array[MAX_LEN];
-	int a = 0;
+	int a = 0, status = 0;
 
 	while (1)
 	{
@@ -89,8 +89,6 @@ int main(void)
 		command = strtok(commands, "\n");
 		while (command != NULL)
 		{
-			if (strcmp(command, "exit") == 0)
-				exit(0);
 			commands_array[a] = command;
 			command = strtok(NULL, "\n");
 			a++;
@@ -98,9 +96,13 @@ int main(void)
 		commands_array[a] = NULL;
 		
 		a = 0;
+		if (strcmp(commands_array[a], "exit") == 0)
+			exit(status);
 		while (commands_array[a] != NULL)
 		{
 			command = commands_array[a];
+			if (strcmp(command, "exit") == 0 && a > 0)
+				exit(2);
 			handle_command(command);
 			a++;
 		}
