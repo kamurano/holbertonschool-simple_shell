@@ -1,5 +1,4 @@
 #include "main.h"
-#include <dirent.h>
 
 #define MAX_LEN 100
 #define PROMPT ">> "
@@ -53,6 +52,8 @@ void handle_command(char *u_command)
                                 }
                         }
                 }
+		printf("Command not found: %s\n", args[0]);
+		exit(EXIT_FAILURE);
 	}
 	else
 	{
@@ -83,9 +84,8 @@ int main(void)
 		}
 		else if (read_size == 0)
 			break;
-
 		commands[read_size] = '\0';
-
+		a = 0;
 		command = strtok(commands, "\n");
 		while (command != NULL)
 		{
