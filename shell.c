@@ -19,47 +19,28 @@ void handle_command(char *u_command)
 
 	if (args[0] == NULL)
 		return;
-	
+
 	args[i] = NULL;
-	
+    
 	pid = fork();
 	if (pid == -1)
 	{
-		perror("Fork failed");
-		return;
-	}
-	else if (!pid)
-	{
-		if (strcmp(args[0], "env") == 0)
-                {
-                        char **env = environ;
-
-                        while (*env != NULL)
-                        {
-                                printf("%s\n", *env);
-                                env++;
-                        }
-                        exit(EXIT_SUCCESS);
-                }
-                if (strchr(args[0], '/') != NULL)
-                {
-                        if (access(args[0], X_OK) == 0)
-                        {
-                                if (execve(args[0], args, environ) == -1)
-                                {
-                                        perror("Execve failed");
-                                        exit(EXIT_FAILURE);
-                                }
-                        }
-                }
-		printf("Command not found: %s\n", args[0]);
+		perror("fork failed");
 		exit(EXIT_FAILURE);
+	}
+	else if (pid == 0)
+	{
+		if (execvp(args[0], args) == -1)
+		{
+			perror("execvp failed");
+			exit(EXIT_FAILURE);
+		}
 	}
 	else
 	{
-		if (waitpid(pid, &status, 0) == -1)
+		if (wait(&status) == -1)
 		{
-			perror("Waitpid failed");
+			perror("wait failed");
 			exit(EXIT_FAILURE);
 		}
 	}
