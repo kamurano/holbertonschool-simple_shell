@@ -32,7 +32,7 @@ void handle_command(char *u_command)
 	{
 		if (execvp(args[0], args) == -1)
 		{
-			perror("execvp failed");
+			fprintf(stderr, "./hsh: 1: %s: not found\n", args[0]);
 			exit(EXIT_FAILURE);
 		}
 	}
