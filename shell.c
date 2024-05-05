@@ -36,6 +36,7 @@ void handle_command(char *u_command)
 		if (access(path, X_OK) != -1)
 		{
 			found = 1;
+			free(path);
 			break;
 		}
 		free(path);
