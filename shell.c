@@ -44,7 +44,7 @@ void handle_command(char *u_command)
 	if (!found)
 	{
 		fprintf(stderr, "./hsh: 1: %s: not found\n", args[0]);
-		return;
+		exit(127);
 	}
 	
 	pid = fork();
