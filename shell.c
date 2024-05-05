@@ -6,8 +6,9 @@
 void handle_command(char *u_command)
 {
 	char *args[MAX_LEN], *command = strtok(u_command, " \t");
+	char *paths[] = {"/bin/", ""};
 	pid_t pid;
-	int status, i = 0;
+	int status, i = 0, j, found = 0;
 
 	args[0] = NULL;
 	while (command != NULL && i < MAX_LEN - 1)
@@ -21,7 +22,29 @@ void handle_command(char *u_command)
 		return;
 
 	args[i] = NULL;
-    
+	for (j = 0; j < sizeof(paths) / sizeof(paths[0]); j++)
+	{
+		char *path = malloc(strlen(paths[j]) + strlen(args[0]) + 1);
+		if (path == NULL)
+		{
+			perror("Malloc failed");
+			exit(EXIT_FAILURE);
+		}
+		strcpy(path, paths[j]);
+		strcat(path, args[0]);
+		if (access(path, X_OK) != -1)
+		{
+			found = 1;
+			break;
+		}
+		free(path);
+	}
+	if (!found)
+	{
+		fprintf(stderr, "./hsh: 1: %s: not found\n", args[0]);
+		return;
+	}
+	
 	pid = fork();
 	if (pid == -1)
 	{
