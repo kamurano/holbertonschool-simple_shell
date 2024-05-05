@@ -8,7 +8,8 @@ void handle_command(char *u_command)
 	char *args[MAX_LEN], *command = strtok(u_command, " \t");
 	char *paths[] = {"/bin/", ""};
 	pid_t pid;
-	int status, i = 0, j, found = 0;
+	int status, i = 0, found = 0;
+	long unsigned int j;
 
 	args[0] = NULL;
 	while (command != NULL && i < MAX_LEN - 1)
