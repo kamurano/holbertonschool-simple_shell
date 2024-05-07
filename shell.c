@@ -6,7 +6,7 @@
 void handle_command(char *u_command)
 {
 	char *args[MAX_LEN], *command = strtok(u_command, " \t");
-	char *paths[] = {"/bin/", ""};
+	char *paths[] = {"/bin/", "/usr/bin/", "/usr/local/bin/", ""};
 	pid_t pid;
 	int status, i = 0, found = 0;
 	long unsigned int j;
