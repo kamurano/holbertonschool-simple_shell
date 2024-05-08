@@ -27,6 +27,7 @@ void handle_command(char *u_command)
 		if (access(args[0], X_OK) == -1)
 		{
 			fprintf(stderr, "./hsh: 1: %s: not found\n", args[0]);
+			free(path_env);
 			exit(127);
 		}
 		path = args[0];
@@ -37,6 +38,7 @@ void handle_command(char *u_command)
 		if (path_env == NULL)
 		{
 			fprintf(stderr, "Error: PATH environment variable not found\n");
+			free(path_env);
 			exit(127);
 		}
 		path_token = strtok(path_env, ":");
@@ -46,6 +48,7 @@ void handle_command(char *u_command)
 			if (path == NULL)
 			{
 				perror("Malloc failed");
+				free(path_env);
 				exit(EXIT_FAILURE);
 			}
 			strcpy(path, path_token);
@@ -60,6 +63,7 @@ void handle_command(char *u_command)
 			path_token = strtok(NULL, ":");
 		}
 	}
+	free(path_env);
 	if (found == 0)
 	{	
 		fprintf(stderr, "./hsh: 1: %s: not found\n", args[0]);
