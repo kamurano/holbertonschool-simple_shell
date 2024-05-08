@@ -60,6 +60,7 @@ void handle_command(char *u_command)
 		if (path_env == NULL)
 		{
 			fprintf(stderr, "./hsh: 1: %s: not found\n", args[0]);
+			free(path);
 			exit(127);
 		}
 		path_token = strtok(path_env, ":");
