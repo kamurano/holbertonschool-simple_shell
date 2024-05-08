@@ -34,7 +34,11 @@ void handle_command(char *u_command)
 		command = strtok(NULL, " \t");
 	}
 	if (args[0] == NULL)
+	{
+		free(path_env);
+		free(path);
 		return;
+	}
 	args[i] = NULL;
 	
 	if (strchr(args[0], '/') != NULL)
