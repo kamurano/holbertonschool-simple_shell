@@ -16,6 +16,7 @@ void handle_command(char *u_command)
 		perror("Malloc failed");
 		exit(EXIT_FAILURE);
 	}
+	memset(path, 0, MAX_LEN);
 	for (i = 0; environ[i] != NULL; i++)
 	{
 		if (strncmp(environ[i], PATH, 5) == 0)
