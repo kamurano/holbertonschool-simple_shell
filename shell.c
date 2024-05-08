@@ -9,7 +9,6 @@ void handle_command(char *u_command)
 	char *path, *path_env = getenv("PATH"), *path_token;
 	pid_t pid;
 	int status, i = 0, found = 0;
-	long unsigned int j;
 
 	args[0] = NULL;
 	while (command != NULL && i < MAX_LEN - 1)
