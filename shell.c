@@ -43,6 +43,7 @@ void handle_command(char *u_command)
 			fprintf(stderr, "./hsh: 1: %s: not found\n", args[0]);
 			exit(127);
 		}
+		free(path);
 		path = strdup(args[0]);
 		found = 1;
 	}
