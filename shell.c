@@ -6,7 +6,8 @@
 void handle_command(char *u_command)
 {
 	char *args[MAX_LEN], *command = strtok(u_command, " \t");
-	char *path = NULL, *path_env = getenv("PATH"), *path_token;
+	char *path = NULL, *path_token = NULL;
+	char *path_env = strdup(getenv("PATH"));
 	pid_t pid;
 	int status, i = 0, found = 0;
 
@@ -59,8 +60,9 @@ void handle_command(char *u_command)
 			path_token = strtok(NULL, ":");
 		}
 	}
-	if (!found)
+	if (found == 0)
 	{
+		
 		fprintf(stderr, "./hsh: 1: %s: not found\n", args[0]);
 		exit(127);
 	}
@@ -75,9 +77,11 @@ void handle_command(char *u_command)
 	{
 		if (execve(path, args, environ) == -1)
 		{
+			free(path);
 			fprintf(stderr, "./hsh: 1: %s: not found\n", args[0]);
 			exit(EXIT_FAILURE);
 		}
+		free(path);
 	}
 	else
 	{
