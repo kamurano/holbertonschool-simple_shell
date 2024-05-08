@@ -20,31 +20,44 @@ void handle_command(char *u_command)
 	if (args[0] == NULL)
 		return;
 	args[i] = NULL;
-
-	if (path_env == NULL)
+	
+	if (strchr(args[0], '/') != NULL)
 	{
-		fprintf(stderr, "Error: PATH environment variable not found\n");
-		exit(127);
+		if (access(args[0], X_OK) == -1)
+		{
+			fprintf(stderr, "./hsh: 1: %s: not found\n", args[0]);
+			exit(127);
+		}
+		path = args[0];
+		found = 1;
 	}
-	path_token = strtok(path_env, ":");
-	while (path_token != NULL)
+	else
 	{
-		path = malloc(strlen(path_token) + strlen(args[0]) + 2);
-		if (path == NULL)
+		if (path_env == NULL)
 		{
-			perror("Malloc failed");
-			exit(EXIT_FAILURE);
+			fprintf(stderr, "Error: PATH environment variable not found\n");
+			exit(127);
 		}
-		strcpy(path, path_token);
-		strcat(path, "/");
-		strcat(path, args[0]);
-		if (access(path, X_OK) != -1)
+		path_token = strtok(path_env, ":");
+		while (path_token != NULL)
 		{
-			found = 1;
-			break;
+			path = malloc(strlen(path_token) + strlen(args[0]) + 2);
+			if (path == NULL)
+			{
+				perror("Malloc failed");
+				exit(EXIT_FAILURE);
+			}
+			strcpy(path, path_token);
+			strcat(path, "/");
+			strcat(path, args[0]);
+			if (access(path, X_OK) != -1)
+			{
+				found = 1;
+				break;
+			}
+			free(path);
+			path_token = strtok(NULL, ":");
 		}
-		free(path);
-		path_token = strtok(NULL, ":");
 	}
 	if (!found)
 	{
