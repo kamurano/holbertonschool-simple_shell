@@ -27,13 +27,13 @@ void handle_command(char *u_command)
 		fprintf(stderr, "Error: PATH environment variable not found\n");
 		exit(127);
 	}
-	*path_token = strtok(path_env, ":");
+	path_token = strtok(path_env, ":");
 	while (path_token != NULL)
 	{
 		path = malloc(strlen(path_token) + strlen(args[0]) + 2);
 		if (path == NULL)
 		{
-			perrror("Malloc failed");
+			perror("Malloc failed");
 			exit(EXIT_FAILURE);
 		}
 		strcpy(path, path_token);
