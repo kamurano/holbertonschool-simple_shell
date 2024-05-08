@@ -61,8 +61,7 @@ void handle_command(char *u_command)
 		}
 	}
 	if (found == 0)
-	{
-		
+	{	
 		fprintf(stderr, "./hsh: 1: %s: not found\n", args[0]);
 		free(path);
 		exit(127);
@@ -93,6 +92,7 @@ void handle_command(char *u_command)
 			perror("wait failed");
 			exit(EXIT_FAILURE);
 		}
+		free(path);
 	}
 }
 
