@@ -6,7 +6,7 @@
 void handle_command(char *u_command)
 {
 	char *args[MAX_LEN], *command = strtok(u_command, " \t");
-	char *path, *path_env = getenv("PATH"), *path_token;
+	char *path = NULL, *path_env = getenv("PATH"), *path_token;
 	pid_t pid;
 	int status, i = 0, found = 0;
 
@@ -41,7 +41,6 @@ void handle_command(char *u_command)
 		if (access(path, X_OK) != -1)
 		{
 			found = 1;
-			free(path);
 			break;
 		}
 		free(path);
@@ -61,7 +60,7 @@ void handle_command(char *u_command)
 	}
 	else if (pid == 0)
 	{
-		if (execvp(args[0], args) == -1)
+		if (execve(path, args, environ) == -1)
 		{
 			fprintf(stderr, "./hsh: 1: %s: not found\n", args[0]);
 			exit(EXIT_FAILURE);
