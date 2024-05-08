@@ -6,11 +6,25 @@
 void handle_command(char *u_command)
 {
 	char *args[MAX_LEN], *command = strtok(u_command, " \t");
-	char *path = NULL, *path_token = NULL;
-	char *path_env = strdup(getenv("PATH"));
+	char *path = NULL, *path_token = NULL, *path_env = NULL;
 	pid_t pid;
-	int status, i = 0, found = 0;
-
+	int status, i, found = 0;
+	
+	path = malloc(MAX_LEN);
+	if (path == NULL)
+	{
+		perror("Malloc failed");
+		exit(EXIT_FAILURE);
+	}
+	for (i = 0; environ[i] != NULL; i++)
+	{
+		if (strncmp(environ[i], PATH, 5) == 0)
+		{
+			path_env = strdup(environ[i] + 5);
+			break;
+		}
+	}
+	i = 0;
 	args[0] = NULL;
 	while (command != NULL && i < MAX_LEN - 1)
 	{
@@ -27,10 +41,9 @@ void handle_command(char *u_command)
 		if (access(args[0], X_OK) == -1)
 		{
 			fprintf(stderr, "./hsh: 1: %s: not found\n", args[0]);
-			free(path_env);
 			exit(127);
 		}
-		path = args[0];
+		path = strdup(args[0]);
 		found = 1;
 	}
 	else
@@ -38,19 +51,12 @@ void handle_command(char *u_command)
 		if (path_env == NULL)
 		{
 			fprintf(stderr, "Error: PATH environment variable not found\n");
-			free(path_env);
 			exit(127);
 		}
 		path_token = strtok(path_env, ":");
+		
 		while (path_token != NULL)
 		{
-			path = malloc(strlen(path_token) + strlen(args[0]) + 2);
-			if (path == NULL)
-			{
-				perror("Malloc failed");
-				free(path_env);
-				exit(EXIT_FAILURE);
-			}
 			strcpy(path, path_token);
 			strcat(path, "/");
 			strcat(path, args[0]);
@@ -59,11 +65,9 @@ void handle_command(char *u_command)
 				found = 1;
 				break;
 			}
-			free(path);
 			path_token = strtok(NULL, ":");
 		}
 	}
-	free(path_env);
 	if (found == 0)
 	{	
 		fprintf(stderr, "./hsh: 1: %s: not found\n", args[0]);
@@ -86,7 +90,6 @@ void handle_command(char *u_command)
 			fprintf(stderr, "./hsh: 1: %s: not found\n", args[0]);
 			exit(EXIT_FAILURE);
 		}
-		free(path);
 	}
 	else
 	{
@@ -96,8 +99,8 @@ void handle_command(char *u_command)
 			perror("wait failed");
 			exit(EXIT_FAILURE);
 		}
-		free(path);
 	}
+	free(path);
 }
 
 int main(void)
