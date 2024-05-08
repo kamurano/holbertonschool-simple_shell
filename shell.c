@@ -64,6 +64,7 @@ void handle_command(char *u_command)
 	{
 		
 		fprintf(stderr, "./hsh: 1: %s: not found\n", args[0]);
+		free(path);
 		exit(127);
 	}
 	
@@ -71,6 +72,7 @@ void handle_command(char *u_command)
 	if (pid == -1)
 	{
 		perror("fork failed");
+		free(path);
 		exit(EXIT_FAILURE);
 	}
 	else if (pid == 0)
@@ -87,6 +89,7 @@ void handle_command(char *u_command)
 	{
 		if (wait(&status) == -1)
 		{
+			free(path);
 			perror("wait failed");
 			exit(EXIT_FAILURE);
 		}
