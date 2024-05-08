@@ -44,6 +44,7 @@ void handle_command(char *u_command)
 			exit(127);
 		}
 		free(path);
+		free(path_env);
 		path = strdup(args[0]);
 		found = 1;
 	}
@@ -68,6 +69,7 @@ void handle_command(char *u_command)
 			}
 			path_token = strtok(NULL, ":");
 		}
+		free(path_env);
 	}
 	if (found == 0)
 	{	
