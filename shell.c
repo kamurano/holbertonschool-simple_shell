@@ -41,6 +41,7 @@ void handle_command(char *u_command)
 		if (access(args[0], X_OK) == -1)
 		{
 			fprintf(stderr, "./hsh: 1: %s: not found\n", args[0]);
+			free(path);
 			free(path_env);
 			exit(127);
 		}
