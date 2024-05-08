@@ -6,7 +6,7 @@
 void handle_command(char *u_command)
 {
 	char *args[MAX_LEN], *command = strtok(u_command, " \t");
-	char *paths[] = {"/bin/", "/usr/bin/", "/usr/local/bin/", ""};
+	char *path, *path_env = getenv("PATH"), *path_token;
 	pid_t pid;
 	int status, i = 0, found = 0;
 	long unsigned int j;
@@ -18,20 +18,26 @@ void handle_command(char *u_command)
 		i++;
 		command = strtok(NULL, " \t");
 	}
-
 	if (args[0] == NULL)
 		return;
-
 	args[i] = NULL;
-	for (j = 0; j < sizeof(paths) / sizeof(paths[0]); j++)
+
+	if (path_env == NULL)
 	{
-		char *path = malloc(strlen(paths[j]) + strlen(args[0]) + 1);
+		fprintf(stderr, "Error: PATH environment variable not found\n");
+		exit(127);
+	}
+	*path_token = strtok(path_env, ":");
+	while (path_token != NULL)
+	{
+		path = malloc(strlen(path_token) + strlen(args[0]) + 2);
 		if (path == NULL)
 		{
-			perror("Malloc failed");
+			perrror("Malloc failed");
 			exit(EXIT_FAILURE);
 		}
-		strcpy(path, paths[j]);
+		strcpy(path, path_token);
+		strcat(path, "/");
 		strcat(path, args[0]);
 		if (access(path, X_OK) != -1)
 		{
@@ -40,6 +46,7 @@ void handle_command(char *u_command)
 			break;
 		}
 		free(path);
+		path_token = strtok(NULL, ":");
 	}
 	if (!found)
 	{
