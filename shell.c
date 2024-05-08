@@ -45,6 +45,7 @@ void handle_command(char *u_command)
 			free(path_env);
 			exit(127);
 		}
+		free(path);
 		free(path_env);
 		path = strdup(args[0]);
 		found = 1;
