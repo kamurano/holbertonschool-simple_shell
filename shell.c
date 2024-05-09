@@ -1,4 +1,13 @@
 #include "main.h"
+void print_env(void)
+{
+	char **env_ptr = environ;
+	while (*env_ptr != NULL)
+	{
+		printf("%s\n", *env_ptr);
+		env_ptr++;
+	}
+}
 void setup_environment(char **path_env, char **path)
 {
 	int i;
@@ -150,14 +159,17 @@ int main(void)
 		a = 0;
 		if (strcmp(commands_array[a], "exit") == 0)
 			exit(status);
-		while (commands_array[a] != NULL)
-		{
-			command = commands_array[a];
-			if (strcmp(command, "exit") == 0 && a > 0)
-				exit(2);
-			handle_command(command);
-			a++;
+		else if (strcmp(commands_array[a], "env") == 0)
+			print_env();
+		else
+			while (commands_array[a] != NULL)
+			{
+				command = commands_array[a];
+				if (strcmp(command, "exit") == 0 && a > 0)
+					exit(2);
+				handle_command(command);
+				a++;
+			}
 		}
-	}
 	return (0);
 }
