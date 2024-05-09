@@ -27,13 +27,41 @@ void setup_environment(char **path_env, char **path)
 			break;
 		}
 }
+void execute_command(char **args, char *path) 
+{
+	pid_t pid;
+	int status;
 
+	pid = fork();
+	if (pid == -1) 
+	{
+		perror("fork failed");
+		exit(EXIT_FAILURE);
+	}
+	else if (pid == 0)
+	{
+		if (execve(path, args, environ) == -1)
+		{
+			free(path);
+			fprintf(stderr, "./hsh: 1: %s: not found\n", args[0]);
+			exit(EXIT_FAILURE);
+		}
+	}
+	else
+	{
+		if (wait(&status) == -1)
+		{
+			free(path);
+			perror("wait failed");
+			exit(EXIT_FAILURE);
+		}
+	}
+}
 void handle_command(char *u_command)
 {
 	char *args[MAX_LEN], *command = strtok(u_command, " \t");
 	char *path = NULL, *path_token = NULL, *path_env = NULL;
-	pid_t pid;
-	int status, i = 0, found = 0;
+	int i = 0, found = 0;
 	
 	setup_environment(&path_env, &path);
 
@@ -97,33 +125,9 @@ void handle_command(char *u_command)
 		free(path);
 		exit(127);
 	}
-	
-	pid = fork();
-	if (pid == -1)
-	{
-		perror("fork failed");
-		free(path);
-		exit(EXIT_FAILURE);
-	}
-	else if (pid == 0)
-	{
-		if (execve(path, args, environ) == -1)
-		{
-			free(path);
-			fprintf(stderr, "./hsh: 1: %s: not found\n", args[0]);
-			exit(EXIT_FAILURE);
-		}
-	}
-	else
-	{
-		if (wait(&status) == -1)
-		{
-			free(path);
-			perror("wait failed");
-			exit(EXIT_FAILURE);
-		}
-	}
-	free(path);
+
+	execute_command(args, path);
+	free(path);	
 }
 
 int main(void)
