@@ -1,6 +1,5 @@
 #ifndef MAINH
 #define MAINH
-#define PATH "PATH="
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -12,6 +11,12 @@
 #include <errno.h>
 #include <dirent.h>
 
+#define MAX_LEN 100
+#define PROMPT ">> "
+#define PATH "PATH="
 extern char **environ;
+void handle_command(char *u_command);
+void setup_environment(char **path_env, char **path);
+void execute_command(char **args, char *path);
 
 #endif

@@ -1,31 +1,33 @@
 #include "main.h"
+void setup_environment(char **path_env, char **path)
+{
+	int i;
 
-#define MAX_LEN 100
-#define PROMPT ">> "
+	*path = malloc(MAX_LEN);
+	if (!*path)
+	{
+		perror("Malloc failed");
+		exit(EXIT_FAILURE);
+	}
+	memset(*path, 0, MAX_LEN);
+
+	for (i = 0; environ[i] != NULL; i++)
+		if (strncmp(environ[i], PATH, 5) == 0)
+		{
+			*path_env = strdup(environ[i] + 5);
+			break;
+		}
+}
 
 void handle_command(char *u_command)
 {
 	char *args[MAX_LEN], *command = strtok(u_command, " \t");
 	char *path = NULL, *path_token = NULL, *path_env = NULL;
 	pid_t pid;
-	int status, i, found = 0;
+	int status, i = 0, found = 0;
 	
-	path = malloc(MAX_LEN);
-	if (path == NULL)
-	{
-		perror("Malloc failed");
-		exit(EXIT_FAILURE);
-	}
-	memset(path, 0, MAX_LEN);
-	for (i = 0; environ[i] != NULL; i++)
-	{
-		if (strncmp(environ[i], PATH, 5) == 0)
-		{
-			path_env = strdup(environ[i] + 5);
-			break;
-		}
-	}
-	i = 0;
+	setup_environment(&path_env, &path);
+
 	args[0] = NULL;
 	while (command != NULL && i < MAX_LEN - 1)
 	{
