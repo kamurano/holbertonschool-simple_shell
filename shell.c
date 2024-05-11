@@ -2,6 +2,7 @@
 void print_env(void)
 {
 	char **env_ptr = environ;
+
 	while (*env_ptr != NULL)
 	{
 		printf("%s\n", *env_ptr);
@@ -27,13 +28,13 @@ void setup_environment(char **path_env, char **path)
 			break;
 		}
 }
-void execute_command(char **args, char *path) 
+void execute_command(char **args, char *path)
 {
 	pid_t pid;
 	int status;
 
 	pid = fork();
-	if (pid == -1) 
+	if (pid == -1)
 	{
 		perror("fork failed");
 		exit(EXIT_FAILURE);
