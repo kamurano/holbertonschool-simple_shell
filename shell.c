@@ -72,6 +72,10 @@ void process_commands(char *commands, char **commands_array)
 	}
 	commands_array[a] = NULL;
 }
+/**
+ * handle_commands_array - func for handling array of commands
+ * @commands_array: array of commands
+ */
 void handle_commands_array(char **commands_array)
 {
 	int a = 0;
