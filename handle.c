@@ -56,17 +56,16 @@ void handle_command(char *u_command)
 		found = 1;
 	}
 	else
-	{
 		handle_path(args, &path, &path_env, &found);
-	}
 
 	if (found == 0)
-	{	
+	{
 		fprintf(stderr, "./hsh: 1: %s: not found\n", args[0]);
 		free(path);
 		exit(127);
 	}
 
 	execute_command(args, path);
-	free(path);	
+	free(path);
 }
+
