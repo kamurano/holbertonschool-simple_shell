@@ -1,4 +1,11 @@
 #include "main.h"
+/**
+ * handle_path - funv for handling path
+ * @args: arguments to path
+ * @path: path
+ * @path_env: environment path
+ * @found: int variable
+*/
 void handle_path(char **args, char **path, char **path_env, int *found)
 {
 	char *path_token = NULL;
@@ -26,6 +33,10 @@ void handle_path(char **args, char **path, char **path_env, int *found)
 	}
 	free(*path_env);
 }
+/**
+ * handle_command - command handler
+ * @u_command: command
+*/
 void handle_command(char *u_command)
 {
 	char *args[MAX_LEN], *path = NULL, *path_env = NULL;
