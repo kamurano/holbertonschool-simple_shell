@@ -1,0 +1,29 @@
+.TH SIMPLE_SHELL 1 "May 2024" "Simple Shell Manual"
+.SH NAME
+simple_shell \- a simple shell implementation
+.SH SYNOPSIS
+simple_shell
+.SH DESCRIPTION
+simple_shell is a basic command-line interpreter that allows users to execute commands and interact with the operating system. It provides a simplified interface for executing commands and managing processes.
+.SH OPTIONS
+There are no command-line options for simple_shell.
+.SH COMMANDS
+simple_shell supports the following commands:
+.IP "command1 [arguments]" 4
+Executes the specified command with the given arguments.
+.IP "command2 [arguments]" 4
+Executes another command with the given arguments.
+.SH EXIT STATUS
+The simple_shell command returns the following exit status values:
+.IP "0" 4
+The command executed successfully.
+.IP "1" 4
+An error occurred during command execution.
+.SH EXAMPLES
+To execute a command, simply type the command followed by any arguments:
+.IP "$ simple_shell command1 arg1 arg2" 4
+.SH SEE ALSO
+bash(1), sh(1)
+.SH AUTHOR
+Kamran Mahmudov <kamurano>
+Samir Ibrahimov <samiribrh>
