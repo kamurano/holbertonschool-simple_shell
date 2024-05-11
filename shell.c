@@ -129,9 +129,7 @@ void handle_command(char *u_command)
 		found = 1;
 	}
 	else
-	{
 		handle_path(args, &path, &path_env, &found);
-	}
 
 	if (found == 0)
 	{	
@@ -199,3 +197,4 @@ int main(void)
 	}
 	return (0);
 }
+
