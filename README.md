@@ -14,7 +14,7 @@ A simple shell implementation in C.
 
 ## Introduction
 
-The Simple Shell is a basic command-line interpreter written in C. It provides a simplified interface for users to interact with the operating system. This project aims to demonstrate the fundamentals of shell programming and serve as a starting point for further development.
+The Simple Shell is a basic command-line interpreter written in C. It provides a simplified interface for users to interact with the operating system. This project aims to demonstrate the fundamentals of shell programming and serve as a starting point for further development
 
 ## Features
 
