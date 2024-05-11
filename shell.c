@@ -1,4 +1,9 @@
 #include "main.h"
+/**
+ * execute_command - func for executing command
+ * @args: arguments to path
+ * @path: path
+ */
 void execute_command(char **args, char *path)
 {
 	pid_t pid;
@@ -29,6 +34,11 @@ void execute_command(char **args, char *path)
 		}
 	}
 }
+/**
+ * parse_command - func for parsing command
+ * @u_command: command to be parsed
+ * @args: arguments to command
+*/
 void parse_command(char *u_command, char **args)
 {
 	char *command = strtok(u_command, " \t");
@@ -43,6 +53,11 @@ void parse_command(char *u_command, char **args)
 	}
 	args[i] = NULL;
 }
+/**
+ * process_commands - commands processor func
+ * @commands: commands
+ * @commands_array: array for all commands
+*/
 void process_commands(char *commands, char **commands_array)
 {
 	char *command;
@@ -76,6 +91,10 @@ void handle_commands_array(char **commands_array)
 			a++;
 		}
 }
+/**
+ * main - main func to process all functions
+ * Return: integer
+ */
 int main(void)
 {
 	char commands[MAX_LEN];
