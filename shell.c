@@ -63,7 +63,7 @@ void handle_command(char *u_command)
 	char *args[MAX_LEN], *command = strtok(u_command, " \t");
 	char *path = NULL, *path_token = NULL, *path_env = NULL;
 	int i = 0, found = 0;
-	
+
 	setup_environment(&path_env, &path);
 
 	args[0] = NULL;
@@ -80,7 +80,7 @@ void handle_command(char *u_command)
 		return;
 	}
 	args[i] = NULL;
-	
+
 	if (strchr(args[0], '/') != NULL)
 	{
 		if (access(args[0], X_OK) == -1)
@@ -105,7 +105,7 @@ void handle_command(char *u_command)
 			exit(127);
 		}
 		path_token = strtok(path_env, ":");
-		
+
 		while (path_token != NULL)
 		{
 			strcpy(path, path_token);
