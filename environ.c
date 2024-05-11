@@ -1,4 +1,7 @@
 #include "main.h"
+/**
+ * print_env - func for printing rnv
+*/
 void print_env(void)
 {
 	char **env_ptr = environ;
@@ -9,6 +12,11 @@ void print_env(void)
 		env_ptr++;
 	}
 }
+/**
+ * setup_environment - funv for environment setup
+ * @path_env: environment path
+ * @path: path
+*/
 void setup_environment(char **path_env, char **path)
 {
 	int i;
