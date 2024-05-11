@@ -10,6 +10,7 @@ A simple shell implementation in C.
 - [Usage](#usage)
 - [Contributing](#contributing)
 - [License](#license)
+- [Authors](#authors)
 
 ## Introduction
 
