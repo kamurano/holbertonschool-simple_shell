@@ -143,17 +143,47 @@ void handle_command(char *u_command)
 	execute_command(args, path);
 	free(path);	
 }
+void process_commands(char *commands, char **commands_array)
+{
+	char *command;
+	int a = 0;
+
+	command = strtok(commands, "\n");
+	while (command != NULL)
+	{
+		commands_array[a] = command;
+		command = strtok(NULL, "\n");
+		a++;
+	}
+	commands_array[a] = NULL;
+}
+void handle_commands_array(char **commands_array)
+{
+	int a = 0;
+	char *command;
+
+	if (strcmp(commands_array[a], "exit") == 0)
+		exit(0);
+	else if (strcmp(commands_array[a], "env") == 0)
+		print_env();
+	else
+		while (commands_array[a] != NULL)
+		{
+			command = commands_array[a];
+			if (strcmp(command, "exit") == 0 && a > 0)
+				exit(2);
+			handle_command(command);
+			a++;
+		}
+}
 int main(void)
 {
 	char commands[MAX_LEN];
-	char *command;
 	char *commands_array[MAX_LEN];
-	int a = 0, status = 0;
+	ssize_t read_size;
 
 	while (1)
 	{
-		ssize_t read_size;
-
 		read_size = read(STDIN_FILENO, commands, MAX_LEN);
 		if (read_size == -1)
 		{
@@ -163,30 +193,9 @@ int main(void)
 		else if (read_size == 0)
 			break;
 		commands[read_size] = '\0';
-		a = 0;
-		command = strtok(commands, "\n");
-		while (command != NULL)
-		{
-			commands_array[a] = command;
-			command = strtok(NULL, "\n");
-			a++;
-		}
-		commands_array[a] = NULL;
-		
-		a = 0;
-		if (strcmp(commands_array[a], "exit") == 0)
-			exit(status);
-		else if (strcmp(commands_array[a], "env") == 0)
-			print_env();
-		else
-			while (commands_array[a] != NULL)
-			{
-				command = commands_array[a];
-				if (strcmp(command, "exit") == 0 && a > 0)
-					exit(2);
-				handle_command(command);
-				a++;
-			}
-		}
+
+		process_commands(commands, commands_array);
+		handle_commands_array(commands_array);
+	}
 	return (0);
 }
