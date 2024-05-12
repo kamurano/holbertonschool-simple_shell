@@ -8,6 +8,7 @@ A simple shell implementation in C.
 - [Features](#features)
 - [Installation](#installation)
 - [Usage](#usage)
+- [Flowchart](#flowchart)
 - [Contributing](#contributing)
 - [License](#license)
 - [Authors](#authors)
@@ -41,7 +42,11 @@ Once the shell is running, you can enter commands just like in a regular termina
 - `pwd`: Print the current working directory
 - `exit`: Exit the shell
 
-For more information on available commands and options, refer to the [man page](man/simple-shell.1).
+For more information on available commands and options, refer to the [man page](man_1_simple_shell).
+
+## Flowchart
+
+![alt text](https://github.com/kamurano/holbertonschool-simple_shell/blob/main/img/shell.drawio.png)
 
 ## Contributing
 
