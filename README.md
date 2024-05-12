@@ -30,7 +30,7 @@ The Simple Shell is a basic command-line interpreter written in C. It provides a
 To install and run the Simple Shell, follow these steps:
 
 1. Clone the repository: `git clone https://github.com/kamurano/holbertonschool-simple_shell.git
-2. Navigate to the project directory: `cd holbertonschool-simple_shell
+2. Navigate to the project directory: `cd holbertonschool-simple_shell`
 3. Compile the source code: `gcc -Wall -Werror -Wextra -pedantic -std=gnu89 *.c -o simpleShell`
 4. Run the shell: `./simpleShell`
 
